@@ -14,13 +14,34 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically call an API to authenticate the user
-    if (email === 'user@example.com' && password === 'password') {
-      router.push('/dashboard')
-    } else {
-      setError('Invalid email or password')
+
+    if (!email || !password) {
+      setError('Please fill in all fields.')
+      return
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/login', { // Update with your backend URL
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        setError('')
+        console.log(data)
+        router.push('/dashboard') // Redirect to dashboard on successful login
+      } else {
+        const data = await res.json()
+        setError(data.message || 'Login failed. Please try again.')
+      }
+    } catch (err) {
+      setError('Network error. Please try again.')
     }
   }
 
@@ -28,8 +49,8 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Enter your credentials to access your account</CardDescription>
+          <CardTitle>Log In</CardTitle>
+          <CardDescription>Access your Campus Points account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -54,14 +75,14 @@ export default function LoginPage() {
               />
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button type="submit" className="w-full">Login</Button>
+            <Button type="submit" className="w-full">Log In</Button>
           </form>
         </CardContent>
         <CardFooter>
           <p className="text-sm text-center w-full">
-            Don't have an account?{' '}
+            Don’t have an account?{' '}
             <Link href="/signup" className="text-primary hover:underline">
-              Sign up
+              Sign Up
             </Link>
           </p>
         </CardFooter>
@@ -69,4 +90,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

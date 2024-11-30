@@ -13,18 +13,39 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
   const router = useRouter()
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically call an API to register the user
-    if (name && email && password.length >= 8) {
-      console.log('User registered:', { name, email })
-      router.push('/login')
-    } else {
-      setError('Please fill all fields and ensure password is at least 8 characters')
+  
+    if (!name || !email || password.length < 8) {
+      setError('Please fill all fields and ensure the password is at least 8 characters long.')
+      return
+    }
+  
+    try {
+      const res = await fetch('http://localhost:5000/signup', { // Update the URL
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      })
+  
+      if (res.ok) {
+        setSuccess(true)
+        setError('')
+        router.push('/login') // Redirect to login page after successful signup
+      } else {
+        const data = await res.json()
+        setError(data.message || 'Something went wrong. Please try again.')
+      }
+    } catch (err) {
+      setError('Network error. Please try again.')
     }
   }
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -65,6 +86,7 @@ export default function SignupPage() {
               />
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
+            {success && <p className="text-sm text-green-500">Signup successful! Redirecting...</p>}
             <Button type="submit" className="w-full">Sign Up</Button>
           </form>
         </CardContent>
@@ -80,4 +102,3 @@ export default function SignupPage() {
     </div>
   )
 }
-

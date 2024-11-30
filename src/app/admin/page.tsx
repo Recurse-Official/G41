@@ -1,11 +1,16 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card' // Add CardFooter here
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertCircle, CheckCircle2 } from 'lucide-react'
+'use client';
+
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
+
+// Your component code...
+
 
 // Mock data
 const initialData = {
@@ -70,51 +75,42 @@ export default function AdminPage() {
         </CardContent>
       </Card>
       <Card>
-        <CardHeader>
-          <CardTitle>Adjust User Balance</CardTitle>
-          <CardDescription>Modify a user's Campus Points balance</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleAdjustBalance} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="userId">User ID</Label>
-                <Input
-                  id="userId"
-                  type="number"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
-                  placeholder="Enter user ID"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="amount">Amount</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Enter amount (positive or negative)"
-                  required
-                />
-              </div>
-            </div>
-            <Button type="submit">Adjust Balance</Button>
-          </form>
-          {message && (
-            <Alert variant={message.type === 'success' ? 'default' : 'destructive'} className="mt-4">
-              {message.type === 'success' ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
-              <AlertTitle>{message.type === 'success' ? 'Success' : 'Error'}</AlertTitle>
-              <AlertDescription>{message.text}</AlertDescription>
-            </Alert>
-          )}
-        </CardContent>
-        {/* Move CardFooter inside the Card */}
-        <CardFooter>
-          {/* Any content you want to add to the footer */}
-        </CardFooter>
-      </Card>
+  <CardHeader>
+    <CardTitle>Adjust User Balance</CardTitle>
+    <CardDescription>Modify a user's Campus Points balance</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <form onSubmit={handleAdjustBalance} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="userId">User ID</Label>
+          <Input
+            id="userId"
+            type="number"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            placeholder="Enter user ID"
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="amount">Amount</Label>
+          <Input
+            id="amount"
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="Enter amount (positive or negative)"
+            required
+          />
+        </div>
+      </div>
+      <Button type="submit">Adjust Balance</Button>
+    </form>
+  </CardContent>  {/* Make sure this is properly closed */}
+</Card>   {/* Ensure the <Card> tag is properly closed */}
+
     </div>
   )
 }
+

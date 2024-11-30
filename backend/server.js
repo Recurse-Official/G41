@@ -31,7 +31,7 @@ const contractABI = [
 ];
 
 // Replace with the actual contract address from Ganache
-const contractAddress = '0xf8887bf3bc625b57974131ca4c6c7bdd49a763afa6556dffa62e5eea63625037'; // Replace with actual contract address
+const contractAddress = '0x81601910bC5705CB656958844Eec3eaC8A745704'; // Replace with actual contract address
 
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
