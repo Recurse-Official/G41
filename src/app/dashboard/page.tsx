@@ -14,7 +14,7 @@ const recentTransactions = [
 ]
 
 export default function DashboardPage() {
-  const [balance, setBalance] = useState(1000)
+  const [balance, setBalance] = useState(null) // Start with null balance until wallet is connected
   const [walletAddress, setWalletAddress] = useState(null)
   const [web3, setWeb3] = useState(null)
 
@@ -47,7 +47,14 @@ export default function DashboardPage() {
             <CardDescription>Current Campus Points balance</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-bold text-primary">{balance} ETH</p>
+            {/* Show the Connect Wallet button if balance is null, else show the balance */}
+            {balance === null ? (
+              <Button onClick={connectBlockchain} className="w-full">
+                Connect to your digital wallet
+              </Button>
+            ) : (
+              <p className="text-4xl font-bold text-primary">{balance} ETH</p>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -63,17 +70,11 @@ export default function DashboardPage() {
       </div>
       
       {/* Connect Blockchain Section */}
-      {!walletAddress ? (
-        <div className="flex justify-center">
-          <Button onClick={connectBlockchain} className="w-full">
-            Connect Blockchain (Ganache)
-          </Button>
-        </div>
-      ) : (
+      {walletAddress ? (
         <div className="flex justify-center">
           <p>Connected Wallet: {walletAddress}</p>
         </div>
-      )}
+      ) : null}
       
       <Card>
         <CardHeader>
